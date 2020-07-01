@@ -7,6 +7,7 @@ const koaStatic = require('koa-static');
 const render = require('koa-ejs');
 const session = require('koa-session');
 const override = require('koa-override-method');
+const jsonApiSerializer = require('jsonapi-serializer');
 const assets = require('./assets');
 const mailer = require('./mailers');
 const routes = require('./routes');
