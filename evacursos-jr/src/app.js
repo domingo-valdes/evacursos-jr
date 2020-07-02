@@ -8,6 +8,7 @@ const render = require('koa-ejs');
 const session = require('koa-session');
 const override = require('koa-override-method');
 const jsonApiSerializer = require('jsonapi-serializer');
+const cors = require('@koa/cors');
 const assets = require('./assets');
 const mailer = require('./mailers');
 const routes = require('./routes');
@@ -55,6 +56,9 @@ if (developmentMode) {
 
 app.use(koaStatic(path.join(__dirname, '..', 'build'), {}));
 
+//CORS
+app.use(cors());
+
 // expose a session hash to store information across requests from same client
 app.use(session({
   maxAge: 14 * 24 * 60 * 60 * 1000, // 2 weeks
@@ -85,6 +89,7 @@ render(app, {
 mailer(app);
 
 // Routing middleware
+
 app.use(routes.routes());
 
 module.exports = app;

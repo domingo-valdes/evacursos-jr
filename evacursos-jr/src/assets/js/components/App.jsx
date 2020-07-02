@@ -7,7 +7,7 @@ export default function App() {
   const [post, setPost] = useState();
   const fetchNewPost = useCallback(async () => {
     setLoading(true);
-    const newPost = await postService.getRandomPost();
+    const newPost = await postService.getSearchedCourses();
     setPost(newPost);
     setLoading(false);
   });
@@ -18,8 +18,8 @@ export default function App() {
       <button type="button" onClick={fetchNewPost}> Load Post</button>
       { post && (
         <>
-          <h3>{post.title}</h3>
-          <h3>{post.body}</h3>
+          <p>In</p>
+          <h3>{post.token}</h3>
         </>
       )}
     </div>
