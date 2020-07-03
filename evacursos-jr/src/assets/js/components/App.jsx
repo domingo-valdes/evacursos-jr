@@ -23,7 +23,11 @@ export default function App() {
     console.log("password: " + password);
     const user_token = await postService.getToken(user, password).catch(error => console.error('Error cool:', error));
     setToken(user_token);
+    console.log("received token: ");
+    console.log(user_token);
     setLoading(false);
+    console.log("token: ");
+    console.log(token);
   });
 
   const fetchCourses = useCallback(async () => {
@@ -59,14 +63,14 @@ export default function App() {
         <button type="button" onClick={fetchAuth}> Ingresar </button>
         { post && (
           <>
-            <h3>{post.token}</h3>
+            <h3>{token.token}</h3>
           </>
         )}
       </div>
     );
   }
 
-  if (token && !courses){
+  if (token){
     return (
       <div>
         <p>Código: </p>
@@ -91,64 +95,46 @@ export default function App() {
 
         <button type="button" onClick={fetchCourses}> Buscar </button>
 
-      </div>
 
-    )
-  }
+        { courses && (
 
-  if (token && courses){
-    return (
-      <div>
-        <p>Código: </p>
-        <div className="field">
-          <input type="text" onChange={event => setCode(event.target.value)}  />
-        </div>
-
-        <p>Nombre del curso</p>
-        <div className="field">
-          <input type="text" onChange={event => setCourseName(event.target.value)} />
-        </div>
-
-        <p>Facultad: </p>
-        <div className="field">
-          <input type="text" onChange={event => setDepartment(event.target.value)}  />
-        </div>
-
-        <p>Campus: </p>
-        <div className="field">
-          <input type="text" onChange={event => setCampus(event.target.value)}  />
-        </div>
-
-        <button type="button" onClick={fetchCourses}> Buscar </button>
-        
-        <div>
           <table>
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Nombre</th>
-                <th>Facultad</th>
-                <th>Campus</th>
-                <th>Descripción</th>
-                <th>Interés</th>
-                <th>Dificultad</th>
-                <th>Tiempo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                  <td>{ courses[1].data.attributes.code }</td>
-              </tr>
-            </tbody>
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Facultad</th>
+              <th>Campus</th>
+              <th>Descripción</th>
+              <th>Interés</th>
+              <th>Dificultad</th>
+              <th>Tiempo</th>
+            </tr>
+          </thead>
+          <tbody>
+          {courses.data.map((course) => {
+              return <React.Fragment>
+                  <tr>
+                    <td>{course.attributes.code}</td>
+                    <td>{course.attributes.name}</td>
+                    <td>{course.attributes.faculty}</td>
+                    <td>{course.attributes.campus}</td>
+                    <td>{course.attributes.description}</td>
+                    <td>{course.attributes.interest}</td>
+                    <td>{course.attributes.difficulty}</td>
+                    <td>{course.attributes.time}</td>
+                  </tr>
+              </React.Fragment>
+          })}
+          </tbody>
           </table>
-        </div>
 
-
+        )}
       </div>
 
     )
   }
-  
+ 
 
 
 }
